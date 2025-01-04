@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,15 @@ public class UserService {
 	private UserRepository userRepository;
 	
 
-    public List<User> getAllUsers(Pageable pageable) {
-        return userRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+    public List<User> getAllUsers() {
+    	return userRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));        
+    }
+
+    public Page<User> getAllUsers(Pageable pageable) {
+        Page<User> page = userRepository.findAll(pageable);
+    	return page;
+//    	return userRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+        
     }
 
     public Optional<User> getUserById(Long id) {
@@ -57,4 +65,5 @@ public class UserService {
 //        return userRepository.findByEmail(email);
 //    }
 //
+
 }

@@ -1,9 +1,10 @@
 package com.example.demo.conroller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,10 +29,10 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public List<User> getAllUsers(
+    public Page<User> getAllUsers(
     		@RequestParam(required = false, defaultValue = "0") Integer page,
     		@RequestParam(required = false, defaultValue = "10") Integer size) {
-    	Pageable pageable = Pageable.ofSize(size).withPage(page);
+    	Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
         return userService.getAllUsers(pageable);
     }
 
